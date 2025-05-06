@@ -12,6 +12,7 @@ function main() {
 	const cwd = resolve(CWD, process.argv.find(value => value.startsWith('--wd='))?.slice(5) ?? dirname(executable));
 	const args = process.argv.slice(3).filter(v => !v.startsWith('--wd='));
 
+	console.log(`Run ${executable} in directory ${cwd} with arguments`, args);
 	spawn(executable, args, { cwd })
 }
 
