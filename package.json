@@ -1,0 +1,21 @@
+{
+  "name": "steam-launcher-custom-wrapper",
+  "author": "80LK",
+  "version": "0.0.1",
+  "license": "MIT",
+  "description": "Steam Launch Custom Wrapper",
+  "keywords": [],
+  "private": true,
+  "type": "commonjs",
+  "scripts": {
+    "build": "tsx build.ts",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "devDependencies": {
+    "@types/node": "^22.15.11",
+    "esbuild": "^0.25.4",
+    "postject": "^1.0.0-alpha.6",
+    "tsx": "^4.19.4",
+    "typescript": "^5.8.3"
+  }
+}
