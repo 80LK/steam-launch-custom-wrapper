@@ -8,6 +8,7 @@ import { inject } from "postject";
 (async () => {
 	const outDir = 'dist';
 
+	console.log('Cleaning dist dir');
 	await rm(outDir, { recursive: true, force: true });
 
 	const outScript = join(outDir, 'script.js');
@@ -15,6 +16,7 @@ import { inject } from "postject";
 	const outSeaBlob = join(outDir, 'sea.blob');
 	const outExe = join(outDir, 'slc_wrapper.exe');
 
+	console.log('Build script');
 	const builded = await build({
 		entryPoints: ['src/index.ts'],
 		outfile: outScript,
@@ -28,7 +30,8 @@ import { inject } from "postject";
 	if (builded.errors.length)
 		return builded.errors.forEach(error => console.error(error));
 
-	if (!existsSync(outSeaConfig))
+	if (!existsSync(outSeaConfig)) {
+		console.log("Create SEA-config");
 		writeFile(outSeaConfig,
 			JSON.stringify({
 				main: outScript,
@@ -36,7 +39,9 @@ import { inject } from "postject";
 				output: outSeaBlob
 			})
 		);
+	}
 
+	console.log("Copy NodeJS");
 	const creatingBlob = spawn('node', ['--experimental-sea-config', outSeaConfig]);
 	if (!await new Promise<boolean>((r) => creatingBlob.on('exit', code => r(code == 0)))) return;
 
@@ -44,6 +49,7 @@ import { inject } from "postject";
 
 	//signtool remove /s outExe 
 
+	console.log("Inject script");
 	await inject(
 		outExe,
 		'NODE_SEA_BLOB', await readFile(outSeaBlob),
